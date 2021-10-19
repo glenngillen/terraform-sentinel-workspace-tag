@@ -2,13 +2,14 @@ import "tfrun"
 import "tfplan/v2" as tfplan
 
 checkTag = func(tags) {
+  tags = tags or {}
   print("checking actual tags")
-  return tags and tags.Workspace and tags.Workspace is tfrun.workspace.name
+  return tags.Workspace is tfrun.workspace.name
 }
 
 isCreateOrUpdate = func(change) {
   print("checking create or update")
-  return change.actions is ["create"] or change.actions is ["update"]
+  return any [["create"],["update"]] as action { action is change.actions }
 }
 
 notTagged = func(after) {
