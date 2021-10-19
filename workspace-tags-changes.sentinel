@@ -10,7 +10,7 @@ isCreateOrUpdate = func(change) {
 }
 
 notTagged = func(change) {
-  return !(checkTag(change.after.tags) or checkTag(change.after.tags_all)))
+  return !(checkTag(change.after.tags) or checkTag(change.after.tags_all))
 }
 
 allTagViolations = filter tfplan.resource_changes as _, rc {
