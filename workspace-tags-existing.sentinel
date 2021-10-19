@@ -1,0 +1,18 @@
+import "tfrun"
+import "tfstate"
+
+checkTag = func(tags) {
+  return tags.Workspace and tags.Workspace is tfrun.workspace.name
+}
+
+notTagged = func(values) {
+  return is not (checkTag(values.tags) or checkTag(values.tags_all)))
+}
+
+allTagViolations = filter tfstate.resources as _, r {
+  notTagged(r.values)
+}
+
+main = rule {
+  allTagViolations
+}

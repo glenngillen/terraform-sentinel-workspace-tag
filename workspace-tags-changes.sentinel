@@ -1,0 +1,22 @@
+import "tfrun"
+import "tfplan"
+
+checkTag = func(tags) {
+  return tags.Workspace and tags.Workspace is tfrun.workspace.name
+}
+
+isCreateOrUpdate = func(change) {
+  return change.actions is ["create"] or change.actions is ["update"]
+}
+
+notTagged = func(change) {
+  return is not (checkTag(change.after.tags) or checkTag(change.after.tags_all)))
+}
+
+allTagViolations = filter tfplan.resource_changes as _, rc {
+  isCreateOrUpdate(rc.change) and notTagged(rc.change.after)
+}
+
+main = rule {
+  allTagViolations
+}
