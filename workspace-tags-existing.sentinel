@@ -2,7 +2,7 @@ import "tfrun"
 import "tfstate/v2" as tfstate
 
 checkTag = func(tags) {
-  return tags and ztags.Workspace and tags.Workspace is tfrun.workspace.name
+  return tags and tags.Workspace and tags.Workspace is tfrun.workspace.name
 }
 
 notTagged = func(values) {
