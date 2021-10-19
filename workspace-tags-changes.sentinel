@@ -2,7 +2,7 @@ import "tfrun"
 import "tfplan/v2" as tfplan
 
 checkTag = func(tags) {
-  return tags.Workspace and tags.Workspace is tfrun.workspace.name
+  return tags and tags.Workspace and tags.Workspace is tfrun.workspace.name
 }
 
 isCreateOrUpdate = func(change) {
