@@ -6,7 +6,7 @@ checkTag = func(tags) {
 }
 
 notTagged = func(values) {
-  return is not (checkTag(values.tags) or checkTag(values.tags_all)))
+  return !(checkTag(values.tags) or checkTag(values.tags_all)))
 }
 
 allTagViolations = filter tfstate.resources as _, r {
