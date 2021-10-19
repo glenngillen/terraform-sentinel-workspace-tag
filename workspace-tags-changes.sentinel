@@ -7,10 +7,10 @@ import "tfplan/v2" as tfplan
 #   return tags.Workspace is tfrun.workspace.name
 # }
 
-# isCreateOrUpdate = func(change) {
-#   print("checking create or update")
-#   return any [["create"],["update"]] as action { action is change.actions }
-# }
+isCreateOrUpdate = func(change) {
+  print("checking create or update")
+  return any [["create"],["update"]] as action { action is change.actions }
+}
 
 # notTagged = func(after) {
 #   print("Here it comes...")
@@ -18,10 +18,10 @@ import "tfplan/v2" as tfplan
 #   return !(checkTag(after.tags) or checkTag(after.tags_all))
 # }
 
-# allTagViolations = filter tfplan.resource_changes as _, rc {
-#   isCreateOrUpdate(rc.change) and notTagged(rc.change.after)
-# }
+allTagViolations = filter tfplan.resource_changes as _, rc {
+   isCreateOrUpdate(rc.change) and notTagged(rc.change.after)
+}
 
 main = rule {
-  print("starting main rule") //and print(allTagViolations)
+  print("starting main rule") and print(allTagViolations)
 }
