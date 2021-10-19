@@ -10,6 +10,7 @@ isCreateOrUpdate = func(change) {
 }
 
 notTagged = func(change) {
+  print(change)
   return !(checkTag(change.after.tags) or checkTag(change.after.tags_all))
 }
 
