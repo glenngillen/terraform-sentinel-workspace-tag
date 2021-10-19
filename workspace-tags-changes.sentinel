@@ -22,5 +22,5 @@ allTagViolations = filter tfplan.resource_changes as _, rc {
 }
 
 main = rule {
-  print("starting main rule") and allTagViolations
+  print("starting main rule") and print(allTagViolations)
 }
