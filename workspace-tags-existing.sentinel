@@ -2,6 +2,7 @@ import "tfrun"
 import "tfstate/v2" as tfstate
 
 checkTag = func(tags) {
+  print(tags)
   return tags and tags.Workspace and tags.Workspace is tfrun.workspace.name
 }
 
