@@ -6,6 +6,7 @@ checkTag = func(tags) {
 }
 
 notTagged = func(values) {
+  print(values)
   return !(checkTag(values.tags) or checkTag(values.tags_all))
 }
 

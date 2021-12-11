@@ -3,18 +3,14 @@ import "tfplan/v2" as tfplan
 
 checkTag = func(tags) {
   tags = tags or {}
-  print("checking actual tags")
   return tags.Workspace is tfrun.workspace.name
 }
 
 isCreateOrUpdate = func(change) {
-  print("checking create or update")
   return any [["create"],["update"]] as action { action is change.actions }
 }
 
 notTagged = func(after) {
-  print("Here it comes...")
-  print(after)
   return !(checkTag(after.tags))// or checkTag(after.tags_all))
 }
 
@@ -23,5 +19,5 @@ allTagViolations = filter tfplan.resource_changes as _, rc {
 }
 
 main = rule {
-  print("starting main rule") and print(allTagViolations)
+  print(allTagViolations)
 }
