@@ -2,10 +2,10 @@ import "tfrun"
 import "tfstate/v2" as tfstate
 
 checkTag = func(tags) {
-  if (tags is undefined) {
+  if tags is undefined {
     return false
   }
-  if (tags.Workspace is undefined) {
+  if tags.Workspace is undefined {
     return false
   }
   print(tags)
