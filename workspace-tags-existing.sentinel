@@ -5,7 +5,7 @@ checkTag = func(tags) {
   print(tags)
   print(tags.Workspace)
   print(tfrun.workspace.name)
-  return ((tags and tags.Workspace is not undefined and true) and (tags.Workspace is tfrun.workspace.name))
+  return false
 }
 
 notTagged = func(values) {
