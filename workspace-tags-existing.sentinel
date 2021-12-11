@@ -12,6 +12,7 @@ notTagged = func(values) {
 }
 
 debugger = func(r) {
+  print(length(r))
   print(r)
   return notTagged(r.values)
 }
