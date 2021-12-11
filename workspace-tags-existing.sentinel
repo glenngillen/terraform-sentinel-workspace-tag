@@ -12,7 +12,8 @@ notTagged = func(values) {
 }
 
 allTagViolations = filter tfstate.resources as _, r {
-  notTagged(r.values)
+  print(r)
+  return r.values
 }
 
 main = rule {
