@@ -3,17 +3,16 @@ import "tfstate/v2" as tfstate
 
 checkTag = func(tags) {
   print(tags)
+  print(tags.Workspace)
+  print(tfrun.workspace.name)
   return tags and tags.Workspace and tags.Workspace is tfrun.workspace.name
 }
 
 notTagged = func(values) {
-  print(values)
   return !(checkTag(values.tags) or checkTag(values.tags_all))
 }
 
 debugger = func(r) {
-  print(length(r))
-  print(r)
   return notTagged(r.values)
 }
 
