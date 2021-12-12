@@ -30,7 +30,7 @@ allTagViolations = filter tfstate.resources as _, r {
 }
 
 errors = map allTagViolations as _, r {
-  return { "error": "Resource '" + r.values.address + "' does not have tag Workspace='" + tfrun.Workspace.name + "'",
+  { "error": "Resource '" + r.values.address + "' does not have tag Workspace='" + tfrun.Workspace.name + "'",
     "resource": r }
 }
 
