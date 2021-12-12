@@ -16,12 +16,12 @@ checkTag = func(tags) {
 	if isUnset(tags.Workspace) {
     return false
   }
-  print(tags)
   return tags.Workspace is tfrun.Workspace.name
 }
 
 notTagged = func(values) {
   tagged = (checkTag(values.tags) or checkTag(values.tags_all))
+  tagged = tagged else false
   print(tagged) 
   return tagged is false
 }
