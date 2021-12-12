@@ -1,31 +1,29 @@
 import "tfrun"
 import "tfstate/v2" as tfstate
 
+isUnset = func(val) {
+  val = val else {}
+  if val is null {
+    val = {}
+  }
+  return val is empty
+}
+
 checkTag = func(tags) {
-  if tags is undefined {
+  if isUnset(tags) {
     return false
   }
-  if tags.Workspace is undefined {
+	if isUnset(tags.Workspace) {
     return false
   }
-  print(tags)
-  print(tags.Workspace)
-  print(tfrun.workspace.name)
-  return false
+  return tags.Workspace is tfrun.Workspace.name
 }
 
 notTagged = func(values) {
   return !(checkTag(values.tags) or checkTag(values.tags_all))
 }
 
-debugger = func(r) {
-  return notTagged(r.values)
-}
-
 allTagViolations = filter tfstate.resources as _, r {
-  debugger(r)
+	return notTagged(r.values)
 }
 
-main = rule {
-  allTagViolations
-}
