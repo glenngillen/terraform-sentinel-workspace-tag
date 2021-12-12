@@ -16,6 +16,7 @@ checkTag = func(tags) {
 	if isUnset(tags.Workspace) {
     return false
   }
+  print(tags)
   return tags.Workspace is tfrun.Workspace.name
 }
 
