@@ -27,3 +27,6 @@ allTagViolations = filter tfstate.resources as _, r {
 	return notTagged(r.values)
 }
 
+main = rule {
+  allTagViolations
+}
