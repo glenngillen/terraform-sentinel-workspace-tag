@@ -33,9 +33,9 @@ errors = map allTagViolations as _, r {
   { "error": "Resource '" + r.values.address + "' does not have tag Workspace='" + tfrun.Workspace.name + "'" }
 }
 
-for errors as err {
-  print(err.error)
-}
+# for errors as err {
+#   print(err.error)
+# }
 
 main = rule {
   true

@@ -7,17 +7,22 @@ checkTag = func(tags) {
 }
 
 isCreateOrUpdate = func(change_type) {
-  return any [["create"],["update"]] as action { change_type contains action }
+  return change_type contains "create" or change_type contains "update"
 }
 
 notTagged = func(after) {
   return !(checkTag(after.tags))// or checkTag(after.tags_all))
 }
 
-allTagViolations = filter tfplan.resource_changes as resource, changes {
-   isCreateOrUpdate(changes.change.actions) //and notTagged(rc.change.after)
+changes = filter tfplan.resource_changes as resource, data {
+  isCreateOrUpdate(data.change.actions)
+} 
+
+allTagViolations = filter changes as resource, data {
+  notTagged(rc.change.after)
 }
 
+print(changes)
 print(allTagViolations)
 
 main = rule {
