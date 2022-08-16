@@ -1,5 +1,6 @@
 import "tfrun"
 import "tfstate/v2" as tfstate
+import "strings"
 
 isUnset = func(val) {
   val = val else {}
@@ -25,18 +26,28 @@ notTagged = func(values) {
   return tagged is false
 }
 
-allTagViolations = filter tfstate.resources as _, r {
-	notTagged(r.values)
+
+allTagViolations = filter tfstate.resources as resource, data {
+	notTagged(data.values)
 }
 
-errors = map allTagViolations as _, r {
-  { "error": "Resource '" + r.values.address + "' does not have tag Workspace='" + tfrun.Workspace.name + "'" }
+printMessage = func(resources) {
+  for resources as err {
+    print(strings.join([err.resource, " does not have a tag of Workspace=", tfrun.workspace.name], ""))
+  }
+  return true
 }
 
-# for errors as err {
-#   print(err.error)
-# }
+resources = map allTagViolations as resource, data {
+  { "resource": resource,
+    "message": "",
+    "message_template":  "%s does not have a tag of %s",
+    "message_objects": [resource, tfrun.workspace.name],
+  }
+}
+
+printMessage(resources) 
 
 main = rule {
-  true
+  resources
 }

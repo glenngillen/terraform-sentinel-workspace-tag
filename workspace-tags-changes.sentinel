@@ -2,18 +2,32 @@ import "tfrun"
 import "tfplan/v2" as tfplan
 import "strings"
 
+isUnset = func(val) {
+  val = val else {}
+  if val is null {
+    val = {}
+  }
+  return val is empty
+}
+
 checkTag = func(tags) {
-  tags = tags else {}
-  workspaceTag = tags.Workspace else false
-  return workspaceTag and workspaceTag is tfrun.workspace.name
+  if isUnset(tags) {
+    return false
+  }
+	if isUnset(tags.Workspace) {
+    return false
+  }
+  return tags.Workspace is tfrun.workspace.name
 }
 
 isCreateOrUpdate = func(change_type) {
   return change_type contains "create" or change_type contains "update"
 }
 
-notTagged = func(after) {
-  return !(checkTag(after.tags)) and !(checkTag(after.tags_all))
+notTagged = func(values) {
+  tagged = (checkTag(values.tags) or checkTag(values.tags_all))
+  tagged = tagged else false
+  return tagged is false
 }
 
 changes = filter tfplan.resource_changes as resource, data {
@@ -26,7 +40,7 @@ allTagViolations = filter changes as resource, data {
 
 printMessage = func(resources) {
   for resources as err {
-    print(strings.join([err.resource, "does not have a tag of", tfrun.workspace.name], " "))
+    print(strings.join([err.resource, " does not have a tag of Workspace=", tfrun.workspace.name], ""))
   }
   return true
 }
