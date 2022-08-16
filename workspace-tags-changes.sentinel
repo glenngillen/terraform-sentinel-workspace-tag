@@ -3,9 +3,9 @@ import "tfplan/v2" as tfplan
 import "strings"
 
 checkTag = func(tags) {
-//  tags = tags or {}
-  return false
-  return tags.Workspace is tfrun.workspace.name
+  tags = tags else {}
+  workspaceTag = tags.Workspace else false
+  return workspaceTag and workspaceTag is tfrun.workspace.name
 }
 
 isCreateOrUpdate = func(change_type) {
@@ -13,7 +13,7 @@ isCreateOrUpdate = func(change_type) {
 }
 
 notTagged = func(after) {
-  return !(checkTag(after.tags))// or checkTag(after.tags_all))
+  return !(checkTag(after.tags)) or checkTag(after.tags_all))
 }
 
 changes = filter tfplan.resource_changes as resource, data {
