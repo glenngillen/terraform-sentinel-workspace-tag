@@ -38,5 +38,5 @@ for errors as err {
 }
 
 main = rule {
-  errors
+  true
 }
