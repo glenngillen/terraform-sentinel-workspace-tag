@@ -1,8 +1,10 @@
 import "tfrun"
 import "tfplan/v2" as tfplan
+import "strings"
 
 checkTag = func(tags) {
-  tags = tags or {}
+//  tags = tags or {}
+  return false
   return tags.Workspace is tfrun.workspace.name
 }
 
@@ -22,9 +24,24 @@ allTagViolations = filter changes as resource, data {
   notTagged(data.change.after)
 }
 
-print(changes)
-print(allTagViolations)
+printMessage = func(resources) {
+  for resources as err {
+    print(strings.join([err.resource, "does not have a tag of", tfrun.workspace.name], " "))
+  }
+  return true
+}
+
+resources = map allTagViolations as resource, data {
+  { "resource": resource,
+    "message": "",
+    "message_template":  "%s does not have a tag of %s",
+    "message_objects": [resource, tfrun.workspace.name],
+  }
+}
+
+printMessage(resources) 
 
 main = rule {
-  true
+  resources
 }
+
