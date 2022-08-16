@@ -19,7 +19,7 @@ changes = filter tfplan.resource_changes as resource, data {
 } 
 
 allTagViolations = filter changes as resource, data {
-  notTagged(rc.change.after)
+  notTagged(data.change.after)
 }
 
 print(changes)
