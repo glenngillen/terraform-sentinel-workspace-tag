@@ -21,6 +21,9 @@ checkTag = func(tags) {
 }
 
 notTagged = func(values) {
+  if values.tags_all is undefined {
+    return false // undefined means this resource can't be tagged
+  }
   tagged = checkTag(values.tags_all)
   tagged = tagged else false
   return tagged is false
