@@ -21,7 +21,7 @@ checkTag = func(tags) {
 }
 
 notTagged = func(values) {
-  tagged = (checkTag(values.tags) or checkTag(values.tags_all))
+  tagged = checkTag(values.tags_all)
   tagged = tagged else false
   return tagged is false
 }
